@@ -12,9 +12,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private dataServise : DataServiceService) { }
     data : GlobalData[] =[];
-    pieChart: GoogleChartInterface ={
-      chartType : 'PieChart'
-    };
+    pieChart: GoogleChartInterface;
     datatable = []
     country: string;
     cases : number;
@@ -28,7 +26,7 @@ export class HomeComponent implements OnInit {
     deathsPerOneMillion : number;
     totalTests : number;
     testsPerOneMillion : number;
-
+    ready:Boolean=false;
 
     
 
@@ -43,26 +41,34 @@ export class HomeComponent implements OnInit {
           console.log(ce.country);
         })
       console.log(this.datatable);
-      })
-      console.log(this.datatable);  
       this.pieChart = {
         chartType: 'PieChart',
-        dataTable:this.datatable,
+        dataTable:this.datatable
+        
         //firstRowIsData: true,
-        options: {'Country': 'Cases'},
+        
       };
+      this.ready=true;
+      
+      })
+      console.log(this.datatable);  
+      
     }
   
     ngOnInit(): void {
+      
       this.dataServise.getAllData().subscribe(data => {
-        this.data = data
+        this.data = data;
         console.log(this.data[0]);
         this.cases = this.data[0]['cases']
         this.active = this.data[0]['active']
         this.deaths = this.data[0]['deaths']
         this.recovered = this.data[0]['recovered'] 
+        this.initChart();     
     });
-    this.initChart();
+    
+    
+    this.datatable;
   }
 
 }
