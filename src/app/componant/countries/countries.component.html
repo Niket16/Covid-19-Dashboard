@@ -1,0 +1,59 @@
+<div class = "jumbotron bg-white text-center">
+    <h1 class="display-4">
+        Covid Tracker Country wise
+    </h1>
+   
+    <form class="text-center">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="inputState">Select Country</label>
+            <select id="inputCountry" name="inputCountry" class="form-control" #input (change)='updateValue(input.value)'>
+              <option value={{country}} *ngFor="let country of countryArray">{{country}}</option>
+              
+            </select>
+          </div>
+        </div>
+      </form>
+      <h1 class="text-info ">{{cName}}</h1>
+      <div class="row">
+        <div class="col-sm-3">
+            <div class="card text-white bg-danger  mb-3" >
+                <div  class="card-header">Confirm</div>
+                <div class="card-body">
+                  <h1 class="card-title">{{cases}}</h1>
+                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card text-white bg-primary mb-3" >
+                <div class="card-header">Active</div>
+                <div class="card-body">
+                  <h1 class="card-title">{{active}}</h1>
+                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card text-white bg-success  mb-3" >
+                <div class="card-header">Recovered</div>
+                <div class="card-body">
+                  <h1 class="card-title">{{recovered}}</h1>
+                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card text-white bg-dark mb-3" >
+                <div class="card-header">Death</div>
+                <div class="card-body">
+                  <h1 class="card-title">{{deaths}}</h1>
+                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                </div>
+              </div>
+          </div>
+      </div>
+
+
+    
+</div>
