@@ -9,6 +9,7 @@ import { CountriesComponent } from './componant/countries/countries.component';
 import {HttpClientModule} from '@angular/common/http';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { NgChartjsModule } from 'ng-chartjs';
+import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -24,7 +25,8 @@ import { NgChartjsModule } from 'ng-chartjs';
     AppRoutingModule,
     HttpClientModule,
     Ng2GoogleChartsModule,
-    NgChartjsModule
+    NgChartjsModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
