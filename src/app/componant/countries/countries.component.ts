@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GlobalData } from '../../model/globa-data';
 import { DataServiceService } from '../../service/data-service.service';
+import { ChartType, ChartOptions } from 'chart.js';
+
 
 
 @Component({
@@ -12,13 +14,26 @@ import { DataServiceService } from '../../service/data-service.service';
 export class CountriesComponent implements OnInit {
 
   constructor(private dataServise : DataServiceService) { }
-  data : GlobalData[] =[];
+  
   result : [] = []
   countryArray : string[] = [];
   countryArray1 : string[] = [];
   countryConfirmed : string[] = [];
   countryRecovered : string[] = [];
   countryDeaths : string[] = []; 
+  oneDaycases : [] = [];
+  oneDaydate : [] = [];
+
+  public lineChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public lineChartData = [];
+  public lineChartLabels= [];
+  public lineChartType: ChartType = 'line';
+  public lineChartLegend = true;
+  public lineChartPlugins = [];
+  public lineChartColors =[];
+  n : string = "";
 
   country: string;
     cases : any;
@@ -33,6 +48,8 @@ export class CountriesComponent implements OnInit {
     totalTests : number;
     testsPerOneMillion : number;
     cName : string;
+    data : [] ;
+    replaceCountry : any;
   ngOnInit(){
 
     // this.dataServise.getAllData().subscribe(data => {
@@ -63,8 +80,29 @@ export class CountriesComponent implements OnInit {
 
     });
 
+    this.inItChart();
 
 
+
+  }
+
+  inItChart(){
+    this.lineChartData  = [
+      { data: this.oneDaycases, label: 'Cases' },
+    ];
+    this.lineChartLabels = this.oneDaydate;
+    // this.lineChartOptions (ChartOptions & { annotation: any }) = {
+    //   responsive: true,
+    // };
+    this.lineChartColors = [
+      {
+        borderColor: 'black',
+        backgroundColor: 'rgba(255,0,0,0.3)',
+      },
+    ];
+    this.lineChartLegend = true;
+    this.lineChartType = 'line';
+    this.lineChartPlugins = [];
   }
   
   
@@ -83,6 +121,26 @@ export class CountriesComponent implements OnInit {
         
       }
     })
+    // this.replaceCountry = countryInput.replace(' ', '-')
+    // this.replaceCountry = countryInput.toString().split(' ').join('-')
+    console.log(this.replaceCountry)
+    this.dataServise.getDayByDay(countryInput).subscribe(data => {
+      this.data = data
+      
+      this.data.forEach(dailyCases =>{
+        this.oneDaycases.push(dailyCases['Cases']);
+        this.n = dailyCases['Date']
+        this.n  = this.n.substr(0,10)
+        this.oneDaydate.push(this.n);
+        
+      })
+      console.log(this.oneDaydate)
+      console.log(this.oneDaydate);
+      
+     
+
+    });
+
     
   }
 
