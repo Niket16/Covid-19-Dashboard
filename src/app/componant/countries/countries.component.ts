@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GlobalData } from 'src/app/model/globa-data';
-import { DataServiceService } from 'src/app/service/data-service.service';
+import { GlobalData } from '../../model/globa-data';
+import { DataServiceService } from '../../service/data-service.service';
 
 
 @Component({
@@ -13,7 +13,13 @@ export class CountriesComponent implements OnInit {
 
   constructor(private dataServise : DataServiceService) { }
   data : GlobalData[] =[];
+  result : [] = []
   countryArray : string[] = [];
+  countryArray1 : string[] = [];
+  countryConfirmed : string[] = [];
+  countryRecovered : string[] = [];
+  countryDeaths : string[] = []; 
+
   country: string;
     cases : any;
     todayCases : number;
@@ -29,41 +35,50 @@ export class CountriesComponent implements OnInit {
     cName : string;
   ngOnInit(){
 
-    this.dataServise.getAllData().subscribe(data => {
-      this.data =data
-      console.log(this.data);
-      this.data.forEach(countryName =>{
-        this.countryArray.push(countryName['country'])
-      })
-      console.log(this.countryArray)
-     
+    // this.dataServise.getAllData().subscribe(data => {
+    //   this.data =data
+    //   console.log(this.data);
+    //   this.data.forEach(countryName =>{
+    //     this.countryArray.push(countryName['country'])
+        
+    //   })
+    //   //console.log(this.countryArray) 
+    // });
 
-      
+    //second api
+
+    this.dataServise.getCountryData().subscribe(result => {
+      this.result = result
+      this.result = this.result['Countries']
+      this.result.forEach(countryName1 =>{
+        this.countryArray1.push(countryName1['Country'])
+        this.countryConfirmed.push(countryName1['TotalConfirmed'])
+        this.countryRecovered.push(countryName1['TotalRecovered'])
+        this.countryDeaths.push(countryName1['TotalDeaths'])
+      })
+      console.log(this.countryArray1)
+      console.log(this.countryConfirmed)
+      console.log(this.countryRecovered)
+      console.log(this.countryDeaths)
+
     });
+
+
+
   }
+  
+  
   updateValue(countryInput : string){
     console.log(countryInput);
     this.cName =countryInput
 
-    this.data.forEach(countryName =>{
-      if(countryName.country == countryInput){
+    this.result.forEach(countryName =>{
+      if(countryName['Country'] == countryInput){
         
-        this.cases = countryName['cases']
-        this.active = countryName['active']
-        this.deaths = countryName['deaths']
-        this.recovered = countryName['recovered']
-        if(countryName['active'] == null){
-          this.active = 'Not available'  
-        }
-        if(countryName['recovered'] == null){
-          this.recovered = 'Not available'  
-        }
-        if(countryName['deaths'] == null){
-          this.deaths = 'Not available'  
-        }
-        if(countryName['cases'] == null){
-          this.cases = 'Not available'  
-        }
+        this.cases = countryName['TotalConfirmed'];
+        this.active = countryName['TotalConfirmed'] - countryName['TotalRecovered'] -countryName['TotalDeaths'];
+        this.deaths = countryName['TotalDeaths'];
+        this.recovered = countryName['TotalRecovered'];
         console.log(this.cases,this.active,this.deaths,this.recovered);
         
       }
