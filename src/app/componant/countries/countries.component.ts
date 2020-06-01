@@ -50,6 +50,8 @@ export class CountriesComponent implements OnInit {
     cName : string;
     data : [] ;
     replaceCountry : any;
+    countryNameInput : string;
+    // ready : boolean = false;
   ngOnInit(){
 
     // this.dataServise.getAllData().subscribe(data => {
@@ -88,12 +90,11 @@ export class CountriesComponent implements OnInit {
 
   inItChart(){
     this.lineChartData  = [
-      { data: this.oneDaycases, label: 'Cases' },
+      { data: this.oneDaycases,
+        label: 'Cases' 
+      },
     ];
     this.lineChartLabels = this.oneDaydate;
-    // this.lineChartOptions (ChartOptions & { annotation: any }) = {
-    //   responsive: true,
-    // };
     this.lineChartColors = [
       {
         borderColor: 'black',
@@ -108,25 +109,27 @@ export class CountriesComponent implements OnInit {
   
   updateValue(countryInput : string){
     console.log(countryInput);
-    this.cName =countryInput
-
+    this.cName = countryInput
+    // this.ready = false;
     this.result.forEach(countryName =>{
       if(countryName['Country'] == countryInput){
-        
+      //   this.oneDaydate = [];
+      // this.oneDaycases = [];
+      
         this.cases = countryName['TotalConfirmed'];
         this.active = countryName['TotalConfirmed'] - countryName['TotalRecovered'] -countryName['TotalDeaths'];
         this.deaths = countryName['TotalDeaths'];
-        this.recovered = countryName['TotalRecovered'];
+        this.recovered = countryName['TotalRecovered']; 
+        this .countryNameInput = countryName['Slug']  
         console.log(this.cases,this.active,this.deaths,this.recovered);
         
       }
     })
     // this.replaceCountry = countryInput.replace(' ', '-')
     // this.replaceCountry = countryInput.toString().split(' ').join('-')
-    console.log(this.replaceCountry)
-    this.dataServise.getDayByDay(countryInput).subscribe(data => {
+    console.log(this.countryNameInput)
+    this.dataServise.getDayByDay(this.countryNameInput).subscribe(data => {
       this.data = data
-      
       this.data.forEach(dailyCases =>{
         this.oneDaycases.push(dailyCases['Cases']);
         this.n = dailyCases['Date']
@@ -135,7 +138,8 @@ export class CountriesComponent implements OnInit {
         
       })
       console.log(this.oneDaydate)
-      console.log(this.oneDaydate);
+      console.log(this.oneDaycases);
+      // this.ready =true;
       
      
 
