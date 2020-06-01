@@ -21,9 +21,9 @@ export class DataServiceService {
   }
 
   getDayByDay(countryName : string){
-    console.log('https://api.covid19api.com/dayone/country/'+ countryName+'/status/confirmed');
     
-    return this.http.get('https://api.covid19api.com/dayone/country/'+ countryName+'/status/confirmed') as Observable<any>
+    
+    return this.http.get('https://api.covid19api.com/total/country/' + countryName) as Observable<any>
   }
 
 

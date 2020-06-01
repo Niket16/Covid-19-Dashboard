@@ -21,7 +21,10 @@ export class CountriesComponent implements OnInit {
   countryConfirmed : string[] = [];
   countryRecovered : string[] = [];
   countryDeaths : string[] = []; 
-  oneDaycases : [] = [];
+  oneDayConfirmedcases : [] = [];
+  oneDayActivecases : [] = [];
+  oneDayDeathscases : [] = [];
+  oneDayRecoveredcases : [] = [];
   oneDaydate : [] = [];
 
   public lineChartOptions: ChartOptions = {
@@ -65,7 +68,7 @@ export class CountriesComponent implements OnInit {
     // });
 
     //second api
-
+    
     this.dataServise.getCountryData().subscribe(result => {
       this.result = result
       this.result = this.result['Countries']
@@ -90,15 +93,37 @@ export class CountriesComponent implements OnInit {
 
   inItChart(){
     this.lineChartData  = [
-      { data: this.oneDaycases,
-        label: 'Cases' 
+      { data: this.oneDayConfirmedcases,
+        label: 'Confirmed' 
       },
+      { data: this.oneDayActivecases,
+        label: 'Active' 
+      },
+      { data: this.oneDayRecoveredcases,
+        label: 'Recover' 
+      },
+      { data: this.oneDayDeathscases,
+        label: 'Dathes' 
+      },
+
     ];
     this.lineChartLabels = this.oneDaydate;
     this.lineChartColors = [
       {
-        borderColor: 'black',
+        borderColor: 'red',
         backgroundColor: 'rgba(255,0,0,0.3)',
+      },
+      {
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0,255,0,0.3)',
+      },
+      {
+        borderColor: 'green',
+        backgroundColor: 'rgba(0,0,255,0.3)',
+      },
+      {
+        borderColor: 'black',
+        backgroundColor: 'rgba(255,255,0,0.3)',
       },
     ];
     this.lineChartLegend = true;
@@ -113,8 +138,8 @@ export class CountriesComponent implements OnInit {
     // this.ready = false;
     this.result.forEach(countryName =>{
       if(countryName['Country'] == countryInput){
-      //   this.oneDaydate = [];
-      // this.oneDaycases = [];
+      
+      
       
         this.cases = countryName['TotalConfirmed'];
         this.active = countryName['TotalConfirmed'] - countryName['TotalRecovered'] -countryName['TotalDeaths'];
@@ -127,18 +152,31 @@ export class CountriesComponent implements OnInit {
     })
     // this.replaceCountry = countryInput.replace(' ', '-')
     // this.replaceCountry = countryInput.toString().split(' ').join('-')
+    this.oneDayConfirmedcases.length = 0
+    this.oneDaydate.length = 0
+    this.oneDayActivecases.length = 0;
+    this.oneDayRecoveredcases.length = 0;
+    this.oneDayDeathscases.length = 0;
     console.log(this.countryNameInput)
     this.dataServise.getDayByDay(this.countryNameInput).subscribe(data => {
       this.data = data
       this.data.forEach(dailyCases =>{
-        this.oneDaycases.push(dailyCases['Cases']);
+        this.oneDayConfirmedcases.push(dailyCases['Confirmed']);
+        this.oneDayActivecases.push(dailyCases['Active']);
+        this.oneDayRecoveredcases.push(dailyCases['Recovered']);
+        this.oneDayDeathscases.push(dailyCases['Deaths']);
         this.n = dailyCases['Date']
         this.n  = this.n.substr(0,10)
         this.oneDaydate.push(this.n);
         
       })
       console.log(this.oneDaydate)
-      console.log(this.oneDaycases);
+      console.log(this.oneDayConfirmedcases);
+      console.log(this.oneDayActivecases);
+      console.log(this.oneDayRecoveredcases);
+      console.log(this.oneDayDeathscases);
+
+      
       // this.ready =true;
       
      
