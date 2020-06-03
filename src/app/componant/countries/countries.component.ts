@@ -165,9 +165,9 @@ export class CountriesComponent implements OnInit {
         this.oneDayActivecases.push(dailyCases['Active']);
         this.oneDayRecoveredcases.push(dailyCases['Recovered']);
         this.oneDayDeathscases.push(dailyCases['Deaths']);
-        this.n = dailyCases['Date']
-        this.n  = this.n.substr(0,10)
-        this.oneDaydate.push(this.n);
+        // this.n = dailyCases['Date']
+        // this.n  = this.n.substr(0,10)
+        this.oneDaydate.push(dailyCases['Date']);
         
       })
       console.log(this.oneDaydate)
