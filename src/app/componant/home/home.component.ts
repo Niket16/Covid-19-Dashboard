@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
    
     public barChartOptions: ChartOptions = {
       responsive: true,
+      maintainAspectRatio: false
     };
 
     public barChartLabels= [];
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit {
 
     public pieChartOptions: ChartOptions = {
       responsive: true,
+      maintainAspectRatio: false
     };
 
     public pieChartLabels  = [];

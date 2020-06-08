@@ -29,6 +29,7 @@ export class CountriesComponent implements OnInit {
 
   public lineChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio : false
   };
   public lineChartData = [];
   public lineChartLabels= [];
